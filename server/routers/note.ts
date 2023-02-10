@@ -1,5 +1,4 @@
 import { initTRPC, TRPCError } from "@trpc/server";
-import { router } from "../src/index";
 import superjson from "superjson"
 import { z } from "zod"
 import { prisma } from "../src/utils/prisma";
@@ -9,7 +8,7 @@ const t = initTRPC.create({
         return shape;
     }
 })
-export const noteRouter = router({
+export const noteRouter = t.router({
     allNotes: t.procedure.query(async () => {
         try {
             const allNotes = await prisma.note.findMany();
