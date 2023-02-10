@@ -28,11 +28,21 @@ export const noteRouter = router({
         note: z.string().max(500),
     }))
     .mutation(async ({ input }) => {
-        await prisma.note.create({
-            data: {
-                title: input.title,
-                note: input.note
-            }
-        })
+        try {
+            
+            const newNote = await prisma.note.create({
+                data: {
+                    title: input.title,
+                    note: input.note
+                }
+            })
+            return { newNote };
+        } catch (error) {
+            throw new TRPCError({
+                code: "BAD_REQUEST",
+                cause: error,
+                message: "Couldn't create new note."
+            })
+        }
     })
 })
