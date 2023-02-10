@@ -1,7 +1,7 @@
 import express from "express";
 import superjson from "superjson";
 import { noteRouter } from "../routers/note";
-import { initTRPC } from "@trpc/server";
+import { router, createContext } from './utils/trpc'
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 export const app = express();
@@ -14,18 +14,8 @@ app.use(
 );
 app.use(express.json());
 
-const t = initTRPC.create({
-  transformer: superjson,
-  errorFormatter({ shape }) {
-    return shape;
-  },
-});
-
-export const router = t.router;
-export const publicProcedure = t.procedure;
-
 const appRouter = router({
-  note: noteRouter,
+  note: noteRouter
 });
 
 export type AppRouter = typeof appRouter;
@@ -34,6 +24,7 @@ app.use(
   "/trpc",
   trpcExpress.createExpressMiddleware({
     router: appRouter,
+    createContext
   })
 );
 app.listen(4000, () => {
