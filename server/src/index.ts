@@ -1,5 +1,4 @@
 import express from "express";
-import superjson from "superjson";
 import { noteRouter } from "../routers/note";
 import { router, createContext } from './utils/trpc'
 import * as trpcExpress from "@trpc/server/adapters/express";
@@ -9,7 +8,7 @@ export const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173",'https://5173-viniciusprates-prtnotes-1n95l0yv2su.ws-us86.gitpod.io/'],
+    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
