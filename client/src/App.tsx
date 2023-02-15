@@ -4,7 +4,8 @@ import "./App.css";
 import { api } from "./util/trpc";
 
 function App() {
-  const queryClient = useQueryClient();
+  const [title, setTitle] = useState("");
+  const [note, setNote] = useState("");
   const { data, isLoading, error } = useQuery(["getNotes"], () =>
     api.note.allNotes.query()
   );
@@ -61,8 +62,8 @@ function App() {
                     </button>
                   </div>
                   <div className="flex flex-col gap-2 mx-4 items-center">
-                    <input className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] font-bold px-1 py-2 rounded-md"></input>
-                    <textarea className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] h-52 lg:h-96 font-bold px-1 py-2 resize-none rounded-md"></textarea>
+                    <input name="title" className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] font-bold px-1 py-2 rounded-md" onChange={(evt) => setTitle(evt.target.value)}/>
+                    <textarea name="note"  className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] h-52 lg:h-96 font-bold px-1 py-2 resize-none rounded-md" onChange={(evt) => setNote(evt.target.value)}/>
                   </div>
 
                   <div className="flex items-center justify-end p-6 rounded-b">
@@ -76,7 +77,16 @@ function App() {
                     <button
                       className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setShowModal(false)}
+                      onClick={(evt) => {
+                        
+                        setShowModal(false)
+                        evt.preventDefault();
+                         api.note.createNote.mutate({
+                          title: title,
+                          note: note
+                        })
+                        
+                      }}
                     >
                       Add Note
                     </button>
@@ -90,7 +100,7 @@ function App() {
       </div>
 
       <div>
-        <div className="flex flex-col items-center mx-5 lg:mx-0">
+        <div className="flex flex-col items-center gap-4 mx-5 lg:mx-0">
           {data?.allNotes.map((note, key) => (
             <div
               key={key}
