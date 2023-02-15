@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import "./App.css";
@@ -22,6 +23,19 @@ function App() {
         <h1 className="text-6xl text-[whitesmoke] font-bold">notes</h1>
         </div>
 
+      </div>
+
+      <div>
+        <div className="flex flex-col items-center">
+        {data?.allNotes.map((note, key) => (
+          <div key={key} className="flex flex-col lg:w-[40rem] bg-[#3C2A21] px-4 py-2 rounded-md">
+
+            <h1 className="text-[#D5CEA3] text-2xl font-bold ">{note.title}</h1>
+            <p className="text-[whitesmoke] text-lg">{note.note}</p>
+            <div className=""></div>
+          </div>
+        ))}
+        </div>
       </div>
     </div>
   );
