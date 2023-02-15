@@ -11,5 +11,5 @@ model Note {
   id        String   @id @default(cuid())
   title     String
   note      String
-  createdAt DateTime @default(now())
-}
+  createdAt DateTime @default(now()) 
+  }
