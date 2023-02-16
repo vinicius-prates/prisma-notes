@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 import "./App.css";
 import { api } from "./util/trpc";
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
   const { data, isLoading, error } = useQuery(["getNotes"], () =>
     api.note.allNotes.query()
-  );
-  const [showModal, setShowModal] = useState(false);
+    );
+    const queryClient = useQueryClient()
+
+  const { mutate } = useMutation(["addNewNote"],  api.note.createNote.mutate, { onSuccess: () => {
+    queryClient.invalidateQueries(["getNotes"])
+  }});
+
 
   return (
     <div className="flex flex-col  w-screen min-h-screen bg-[#1A120B]">
@@ -81,9 +87,9 @@ function App() {
                         
                         setShowModal(false)
                         evt.preventDefault();
-                         api.note.createNote.mutate({
-                          title: title,
-                          note: note
+                        mutate({
+                          note: note,
+                          title: title
                         })
                         
                       }}
