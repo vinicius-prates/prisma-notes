@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import "./App.css";
 import { api } from "./util/trpc";
 
@@ -9,18 +14,19 @@ function App() {
   const [note, setNote] = useState("");
   const { data, isLoading, error } = useQuery(["getNotes"], () =>
     api.note.allNotes.query()
-    );
-    const queryClient = useQueryClient()
+  );
+  const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(["addNewNote"],  api.note.createNote.mutate, { onSuccess: () => {
-    queryClient.invalidateQueries(["getNotes"])
-  }});
-
+  const { mutate } = useMutation(["addNewNote"], api.note.createNote.mutate, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getNotes"]);
+    },
+  });
 
   return (
     <div className="flex flex-col  w-screen min-h-screen bg-[#1A120B]">
-      <div className="flex flex-row gap-1 my-10 justify-evenly lg:mx-96 mx-4">
-        <div className="flex flex-row gap-2 items-center self-center">
+      <div className="flex flex-col md:flex-row gap-1 my-10 justify-evenly lg:mx-96 mx-4">
+        <div className="flex flex-row  gap-2 items-center self-center">
           <h1 className="lg:text-2xl  font-bold text-[whitesmoke]">
             {" "}
             Made by:
@@ -34,8 +40,8 @@ function App() {
           </a>
         </div>
         <div className="flex flex-row gap-2 items-center self-center">
-          <h1 className="lg:text-6xl text-4xl font-bold text-[#D5CEA3]">prt</h1>
-          <h1 className="lg:text-6xl text-4xl text-[whitesmoke] font-bold">
+          <h1 className="lg:text-6xl text-5xl font-bold text-[#D5CEA3]">prt</h1>
+          <h1 className="lg:text-6xl text-5xl text-[whitesmoke] font-bold">
             notes
           </h1>
         </div>
@@ -68,8 +74,16 @@ function App() {
                     </button>
                   </div>
                   <div className="flex flex-col gap-2 mx-4 items-center">
-                    <input name="title" className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] font-bold px-1 py-2 rounded-md" onChange={(evt) => setTitle(evt.target.value)}/>
-                    <textarea name="note"  className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] h-52 lg:h-96 font-bold px-1 py-2 resize-none rounded-md" onChange={(evt) => setNote(evt.target.value)}/>
+                    <input
+                      name="title"
+                      className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] font-bold px-1 py-2 rounded-md"
+                      onChange={(evt) => setTitle(evt.target.value)}
+                    />
+                    <textarea
+                      name="note"
+                      className="bg-[#E5E5CB] focus:outline-none text-[#1A120B] w-64 lg:w-[40rem] h-52 lg:h-96 font-bold px-1 py-2 resize-none rounded-md"
+                      onChange={(evt) => setNote(evt.target.value)}
+                    />
                   </div>
 
                   <div className="flex items-center justify-end p-6 rounded-b">
@@ -84,14 +98,12 @@ function App() {
                       className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={(evt) => {
-                        
-                        setShowModal(false)
+                        setShowModal(false);
                         evt.preventDefault();
                         mutate({
                           note: note,
-                          title: title
-                        })
-                        
+                          title: title,
+                        });
                       }}
                     >
                       Add Note
