@@ -127,7 +127,7 @@ function App() {
               <h1 className="text-[#D5CEA3] text-2xl font-bold ">
                 {note.title}
               </h1>
-              <p className="text-[whitesmoke] text-lg">{note.note}</p>
+              <p className="text-[whitesmoke] text-lg truncate">{note.note}</p>
 
               <div className="text-[#D5CEA3] text-sm italic opacity-50 text-right">
                 {note.createdAt.toString()}
