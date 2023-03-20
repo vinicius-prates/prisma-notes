@@ -22,6 +22,27 @@ export const noteRouter = t.router({
         }
     }),
 
+    singleNote: t.procedure.input(z.object({
+        id: z.string(),
+    })).query(async ({input}) => {
+        try {
+            const note = await prisma.note.findFirst(
+                {
+                where: {
+                    id: input.id 
+                }    
+                }
+            )
+            return note
+        } catch (error) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                cause: error, 
+                message: "Could not get the note."
+            })
+        }
+    })
+    ,
     createNote: t.procedure.input(z.object({
         title: z.string(),
         note: z.string().max(500),
