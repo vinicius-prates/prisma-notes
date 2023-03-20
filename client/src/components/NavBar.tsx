@@ -1,7 +1,7 @@
 import React from 'react'
 export const NavBar = () => {
     return(
-        <div className="flex flex-col md:flex-row gap-1 my-10 justify-evenly lg:mx-96 mx-4">
+        <div className="flex flex-col md:flex-row gap-1 justify-evenly lg:mx-96 py-10 x-4">
         <div className="flex flex-row  gap-2 items-center self-center">
           <h1 className="lg:text-2xl  font-bold text-[whitesmoke]">
             {" "}
