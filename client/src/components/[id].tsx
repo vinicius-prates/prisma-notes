@@ -14,6 +14,11 @@ export const NotePage = () => {
     api.note.singleNote.query({ id })
   );
 
+  const deleteNote = () => {
+
+    api.note.deleteNote.mutate({id});
+    navigate("/")
+  }
   return (
     <div className="flex flex-col bg-[#1A120B] h-screen ">
       <NavBar />
@@ -22,9 +27,11 @@ export const NotePage = () => {
           <h1 className="text-[#D5CEA3] text-2xl font-bold ">{data?.title}</h1>
           <p className="text-[whitesmoke] text-lg break-words">{data?.note}</p>
 
-          <div className="text-[#D5CEA3] text-sm italic opacity-50 text-right">
+          <p className="text-[#D5CEA3] text-sm italic opacity-50 text-right">
             {data?.createdAt.toString()}
-          </div>
+          </p>
+          <p className="font-bold opacity-70 hover:opacity-100 text-[#D5CEA3] transition-all duration-200 hover:cursor-pointer text-right"
+          onClick={deleteNote}> Delete </p>
         </div>
       </div>
     </div>

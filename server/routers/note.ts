@@ -64,5 +64,25 @@ export const noteRouter = t.router({
                 message: "Couldn't create new note."
             })
         }
+    }),
+    deleteNote: t.procedure.input(z.object({
+        id: z.string()
+    })).mutation(async ({input}) => {
+        try {
+            const deletedNote = await prisma.note.delete({
+                where: {
+                    id: input.id
+                }
+            })
+
+            return {deletedNote};            
+        } catch (error) {
+            throw new TRPCError({
+                code:"INTERNAL_SERVER_ERROR",
+                cause:error,
+                message:"Could not delete the note"
+            })
+            
+        }
     })
 })
