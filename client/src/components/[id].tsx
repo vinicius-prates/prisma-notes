@@ -1,12 +1,19 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../util/trpc";
 import { NavBar } from "./NavBar";
 export const NotePage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  if (!id) {
+    navigate("/");
+    console.log("Could not find this note.");
+    return;
+  }
   const { data } = useQuery(["GetNote"], () =>
     api.note.singleNote.query({ id })
   );
+
   return (
     <div className="flex flex-col bg-[#1A120B] h-screen ">
       <NavBar />
@@ -19,7 +26,6 @@ export const NotePage = () => {
             {data?.createdAt.toString()}
           </div>
         </div>
-        
       </div>
     </div>
   );
